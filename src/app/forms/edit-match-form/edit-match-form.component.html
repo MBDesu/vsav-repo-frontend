@@ -1,0 +1,48 @@
+<form [formGroup]="editMatchForm" style="margin-top: 1rem;">
+  <div class="container">
+    <mat-autocomplete #p1auto="matAutocomplete">
+      <mat-option *ngFor="let player of filteredP1Players | async" [value]="player">
+        {{ player }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-autocomplete #p2auto="matAutocomplete">
+      <mat-option *ngFor="let player of filteredP2Players | async" [value]="player">
+        {{ player }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-form-field class="wide-on-xs">
+      <input matInput formControlName="playerOneName" placeholder="P1 name" [matAutocomplete]="p1auto" required />
+    </mat-form-field>
+    <span class="hide-on-xs">&nbsp;</span>
+    <mat-form-field class="wide-on-xs">
+      <mat-select formControlName="playerOneChar" placeholder="P1 character" required>
+        <mat-option *ngFor="let character of characters" [value]="character"><img class="portrait-36" src="../../assets/img/portraits/Portrait-{{ character.toLowerCase() }}.gif" />&nbsp;{{ character }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="container">
+    <mat-form-field class="wide-on-xs">
+      <input matInput formControlName="playerTwoName" placeholder="P2 name" [matAutocomplete]="p2auto" required />
+    </mat-form-field>
+    <span class="hide-on-xs">&nbsp;</span>
+    <mat-form-field class="wide-on-xs">
+      <mat-select formControlName="playerTwoChar" placeholder="P2 character" required>
+        <mat-option *ngFor="let character of characters" [value]="character"><img class="portrait-36" src="../../assets/img/portraits/Portrait-{{ character.toLowerCase() }}.gif" />&nbsp;{{ character }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="container">
+    <mat-form-field class="wide-on-xs">
+      <input matInput formControlName="youtubeTimestamp" placeholder="Timestamp (e.g.: 00h42m32s)" required />
+      <mat-error *ngIf="editMatchForm.get('youtubeTimestamp').hasError('pattern')">Format must match XXhXXmXXs</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="match-actions">
+    <button mat-icon-button matTooltip="Swap players" color="primary" (click)="swapPlayers()"><mat-icon>swap_horiz</mat-icon></button>
+    <button mat-icon-button matTooltip="Delete match" color="primary" (click)="deletedMatch()"><mat-icon>delete_forever</mat-icon></button>
+    <button mat-icon-button matTooltip="Save" color="primary" [disabled]="editMatchForm.invalid || !editMatchForm.dirty" (click)="updatedMatch()"><mat-icon>save</mat-icon></button>
+  </div>
+  <div class="divider" *ngIf="showDivider">
+    <mat-divider></mat-divider>
+  </div>
+</form>

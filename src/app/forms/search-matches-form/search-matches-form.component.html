@@ -1,0 +1,28 @@
+<mat-card>
+    <form [formGroup]="searchMatchesForm" (ngSubmit)="searchMatches()">
+      <mat-card-content>
+        <div class="container">
+          <mat-autocomplete #p1auto="matAutocomplete">
+            <mat-option *ngFor="let player of filteredP1Players | async" [value]="player">
+              {{ player }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-autocomplete #p2auto="matAutocomplete">
+            <mat-option *ngFor="let player of filteredP2Players | async" [value]="player">
+              {{ player }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-form-field class="wide-on-xs">
+            <input matInput formControlName="playerOneName" type="text" placeholder="Player" [matAutocomplete]="p1auto" />
+          </mat-form-field>
+        </div>
+        <div class="container">
+          <mat-form-field class="wide-on-xs">
+            <input matInput formControlName="playerTwoName" type="text" placeholder="Player" [matAutocomplete]="p2auto" />
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <button type="submit" aria-label="search" mat-raised-button color="primary" [disabled]="searchMatchesForm.invalid">Search</button>
+    </form>
+  <mat-error *ngIf="searchMatchesForm?.hasError('atLeastOneRequired')">{{ searchMatchesForm?.getError('atLeastOneRequired').text }}</mat-error>
+</mat-card>

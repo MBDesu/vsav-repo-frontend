@@ -1,0 +1,85 @@
+<mat-card color="primary">
+  <mat-card-header>
+    <mat-card-title>{{ video.metadata.title }}</mat-card-title>
+    <mat-card-subtitle>Uploaded by {{ video.metadata.channel }} on {{ video.metadata.uploadDate | date }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title><span class="text-overflow-ellipsis">{{ video.metadata.description }}</span></mat-panel-title>
+    </mat-expansion-panel-header>
+    <span style="white-space: pre-line">{{ video.metadata.description }}</span>
+  </mat-expansion-panel>
+  <mat-divider></mat-divider>
+  <div *ngIf="showEdit && this.sessionManagementService.isLoggedIn()">
+    <app-edit-video [video]="video" (deletedMatchEvent)="deleteMatch($event.matchId)" (updatedMatchEvent)="updateMatch($event)"></app-edit-video>
+  </div>
+  <div *ngIf="!showEdit || !this.sessionManagementService.isLoggedIn()">
+    <mat-card-content *ngFor="let match of video.matches; let i = index">
+      <!-- TODO: unhack this; we shouldn't have two structures swapped in the DOM on breakpoints, -->
+      <!-- but rather one structure that is responsive -->
+      <div class="match-container container hide-on-xs">
+        <div class="match-info-container">
+          <div class="width-half-minus-1rem text-align-right">
+            <span>{{ match.playerOneName }}</span>&nbsp;
+            <img class="portrait-36"
+              src="../../assets/img/portraits/Portrait-{{ match.playerOneChar.toLowerCase() }}.gif" />
+          </div>
+          <div class="width-2rem">
+            &nbsp;&nbsp;vs.&nbsp;&nbsp;
+          </div>
+          <div class="width-half-minus-1rem text-align-left">
+            <img class="portrait-36"
+              src="../../assets/img/portraits/Portrait-{{ match.playerTwoChar.toLowerCase() }}.gif" />&nbsp;
+            <span>{{ match.playerTwoName }}</span>
+          </div>
+        </div>
+        <div class="match-functionality-container">
+          <!-- <a mat-icon-button color="primary" aria-label="delete" (click)="deleteMatch(match.matchId)">
+            <mat-icon>delete_forever</mat-icon>
+          </a> -->
+          <a mat-icon-button matTooltip="Watch" color="primary" aria-label="watch" href="https://youtube.com/watch?v={{ video.youtubeId }}#t={{ match.youtubeTimestamp }}" target="blank">
+            <mat-icon>play_circle_filled</mat-icon>
+          </a>
+          <!-- <a *ngIf="sessionManagementService.isLoggedIn()" href="#">
+            <mat-icon color="primary">edit</mat-icon>
+          </a> -->
+        </div>
+      </div>
+      <div class="flex-row hide-on-gt-xs">
+        <div class="flex-column flex-1-1-auto">
+          <div>
+            <img class="portrait-36"
+            src="../../assets/img/portraits/Portrait-{{ match.playerOneChar.toLowerCase() }}.gif" />&nbsp;
+            <span>{{ match.playerOneName }}</span>
+          </div>
+          <div>
+            <img class="portrait-36"
+            src="../../assets/img/portraits/Portrait-{{ match.playerTwoChar.toLowerCase() }}.gif" />&nbsp;
+            <span>{{ match.playerTwoName }}</span>
+          </div>
+        </div>
+        <div class="match-functionality-container-mobile">
+          <!-- <a mat-icon-button color="primary" aria-label="delete" (click)="deleteMatch(match.matchId)">
+            <mat-icon>delete_forever</mat-icon>
+          </a> -->
+          <a mat-icon-button matTooltip="Watch" matTooltipPosition="below" color="primary" aria-label="watch" href="https://youtube.com/watch?v={{ video.youtubeId }}#t={{ match.youtubeTimestamp }}" target="blank">
+            <!-- <mat-icon>ondemand_video</mat-icon> -->
+            <mat-icon>play_circle_filled</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="divider" *ngIf="i < video.matches.length - 1">
+        <mat-divider></mat-divider>
+      </div>
+    </mat-card-content>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-card-actions align="end">
+    <button mat-icon-button matTooltip="Edit matches" (click)="toggleEdit()" color="{{ showEdit && this.sessionManagementService.isLoggedIn() ? 'accent' : 'primary' }}" *ngIf="video.matches.length > 0"><mat-icon>edit</mat-icon></button>
+    <button mat-icon-button matTooltip="Add a match" type="button" aria-label="add match" mat-icon-button color="{{ showAddMatch && this.sessionManagementService.isLoggedIn() ? 'accent' : 'primary' }}"
+      (click)="toggleAddMatch()"><mat-icon>library_add</mat-icon></button>
+  </mat-card-actions>
+  <mat-card-content *ngIf="showAddMatch && sessionManagementService.isLoggedIn()">
+    <app-add-match-form [videoId]="video.videoId" (newMatch)="updateMatchList($event)"></app-add-match-form>
+  </mat-card-content>
+</mat-card>

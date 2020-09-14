@@ -1,0 +1,1 @@
+<app-edit-match-form *ngFor="let match of video.matches; let i = index" [match]="match" [showDivider]="i < video.matches.length - 1" (deletedMatchEvent)="deletedMatch($event)" (updatedMatchEvent)="updatedMatch($event)"></app-edit-match-form>

@@ -1,0 +1,20 @@
+mat-card {
+  max-width: 797px;
+  margin: 1em 2em;
+}
+
+i {
+  vertical-align: middle;
+}
+
+mat-card-content {
+  align-items: center;
+}
+
+.flex-end {
+  align-items: flex-end;
+}
+
+.player-row-container {
+  display: block !important;
+}

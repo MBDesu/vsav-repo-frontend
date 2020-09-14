@@ -1,0 +1,44 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$default-primary: mat-palette($mat-pink);
+$default-accent: mat-palette($mat-green, A200, A100, A400);
+$default-warn: mat-palette($mat-deep-orange);
+$default-theme: mat-dark-theme((
+  color: (
+    primary: $default-primary,
+    accent: $default-accent,
+    warn: $default-warn
+  )
+));
+a {
+  color: mat-color($default-primary);
+  text-decoration: none;
+}
+ion-icon {
+  color: mat-color($default-primary);
+}
+@include angular-material-theme($default-theme);
+
+$light-primary: mat-palette($mat-deep-purple);
+$light-accent: mat-palette($mat-amber, A200, A100, A400);
+$light-warn: mat-palette($mat-red);
+$light-theme: mat-light-theme((
+  color: (
+    primary: $light-primary,
+    accent: $light-accent,
+    warn: $light-warn
+  )
+));
+
+.light-theme {
+  @include angular-material-color($light-theme);
+  a {
+    color: mat-color($light-primary);
+    text-decoration: none;
+  }
+  ion-icon {
+    color: mat-color($light-primary);
+  }
+}

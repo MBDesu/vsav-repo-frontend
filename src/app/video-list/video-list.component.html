@@ -1,0 +1,21 @@
+<div class="center-on-gt-sm">
+  <div class="title mat-display-1">Videos</div>
+  <div class="container add-video">
+    <button aria-label="add video" type="button" mat-fab matTooltip="Add a video" color="{{ showAddVideo && this.sessionManagementService.isLoggedIn() ? 'accent' : 'primary' }}" (click)="toggleAddVideo()">
+      <mat-icon>add_to_queue</mat-icon>
+    </button>
+  </div>
+  <mat-card *ngIf="showAddVideo && this.sessionManagementService.isLoggedIn()">
+    <app-add-video-form (newVideo)="updateVideoList($event)"></app-add-video-form>
+  </mat-card>
+  <app-search-matches-form></app-search-matches-form>
+  <ng-container *ngIf="showSpinner">
+    <mat-progress-spinner class="center" mode="indeterminate" aria-label="mat-progress-spinner"></mat-progress-spinner>
+  </ng-container>
+  <ng-container *ngIf="!showSpinner">
+    <app-video-card *ngFor="let video of videos" [video]="video"></app-video-card>
+  </ng-container>
+</div>
+<app-scroll-to-top></app-scroll-to-top>
+<mat-paginator *ngIf="videos.length > 0" [length]="resultsLength" [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)"></mat-paginator>

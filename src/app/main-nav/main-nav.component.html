@@ -1,0 +1,22 @@
+<div [ngClass]="{ 'light-theme': isLightTheme | async }" class="app-content">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <span>vsav.video</span>
+        <span class="spacer"></span>
+        <mat-slide-toggle [checked]="isLightTheme | async" (change)="toggleLightTheme($event.checked)"><mat-icon color="accent">wb_sunny</mat-icon></mat-slide-toggle>
+        &nbsp;
+        <button mat-icon-button matTooltip="{{ sessionManagementService.isLoggedIn() ? 'Sign out' : 'Sign in' }}" aria-label="login or logout"><mat-icon color="accent" (click)="logInOrOut()">{{ sessionManagementService.isLoggedIn() ? 'close' : 'login' }}</mat-icon></button>
+      </mat-toolbar>
+      <ng-content cdkScrollable></ng-content>
+      <mat-toolbar style="height: 42px;">
+        <span class="spacer"></span>
+        <span>
+          <span class="small-text"><a href="https://forms.gle/7kMTQVdWTAQJW1bx6">UX feedback</a></span>
+          &nbsp;|&nbsp;
+          <span class="small-text"><a href="https://twitter.com/VMP_MBD" target="blank"><ion-icon name="logo-twitter"></ion-icon>&nbsp;<span>VMP_MBD</span></a></span>
+        </span>
+      </mat-toolbar>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

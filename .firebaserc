@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "vsav-repo-v3": {
+      "hosting": {
+        "vsav-repo-frontend-material": [
+          "vsav-repo-v3"
+        ]
+      }
+    }
+  }
+}

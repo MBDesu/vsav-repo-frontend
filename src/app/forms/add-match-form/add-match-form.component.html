@@ -1,0 +1,41 @@
+<form [formGroup]="addMatchForm" (ngSubmit)="addMatch()">
+  <div class="container">
+    <mat-autocomplete #p1auto="matAutocomplete">
+      <mat-option *ngFor="let player of filteredP1Players | async" [value]="player">
+        {{ player }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-autocomplete #p2auto="matAutocomplete">
+      <mat-option *ngFor="let player of filteredP2Players | async" [value]="player">
+        {{ player }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-form-field class="wide-on-xs">
+      <input matInput formControlName="playerOneName" placeholder="P1 name" [matAutocomplete]="p1auto" required />
+    </mat-form-field>
+    <span class="hide-on-xs">&nbsp;</span>
+    <mat-form-field class="wide-on-xs">
+      <mat-select formControlName="playerOneChar" placeholder="P1 character" required>
+        <mat-option *ngFor="let character of characters" [value]="character"><img class="portrait-36" src="../../assets/img/portraits/Portrait-{{ character.toLowerCase() }}.gif" />&nbsp;{{ character }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="container">
+    <mat-form-field class="wide-on-xs">
+      <input matInput formControlName="playerTwoName" placeholder="P2 name" [matAutocomplete]="p2auto" required />
+    </mat-form-field>
+    <span class="hide-on-xs">&nbsp;</span>
+    <mat-form-field class="wide-on-xs">
+      <mat-select formControlName="playerTwoChar" placeholder="P2 character" required>
+        <mat-option *ngFor="let character of characters" [value]="character"><img class="portrait-36" src="../../assets/img/portraits/Portrait-{{ character.toLowerCase() }}.gif" />&nbsp;{{ character }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="container">
+    <mat-form-field class="wide-on-xs">
+      <input matInput formControlName="youtubeTimestamp" placeholder="Timestamp (e.g.: 00h42m32s)" required />
+      <mat-error *ngIf="addMatchForm.get('youtubeTimestamp').hasError('pattern')">Format must match XXhXXmXXs</mat-error>
+    </mat-form-field>
+  </div>
+  <button type="submit" aria-label="submit" mat-raised-button color="accent" [disabled]="addMatchForm.invalid">Submit</button>
+</form>

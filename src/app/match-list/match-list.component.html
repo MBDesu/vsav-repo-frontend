@@ -1,0 +1,20 @@
+<div class="center-on-gt-sm">
+  <div class="title mat-display-1 flex-row flex-layout-align-start-center">
+    <button type="button" mat-fab matTooltip="Back to video list" aria-label="back to videos" color="primary" (click)="backToVideos()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    &nbsp;Search
+  </div>
+  <div class="container">
+    <app-search-matches-form [p1]="retrieveMatchesRequest.playerOneName" [p2]="retrieveMatchesRequest.playerTwoName" (matchSearch)="searchMatches($event)"></app-search-matches-form>
+  </div>
+  <ng-container *ngIf="showSpinner">
+    <mat-progress-spinner class="center" mode="indeterminate" aria-label="mat-progress-spinner"></mat-progress-spinner>
+  </ng-container>
+  <ng-container *ngIf="!showSpinner">
+    <app-video-card *ngFor="let video of videos" [video]="video"></app-video-card>
+  </ng-container>
+  <mat-error class="put-some-margin-on-it" *ngIf="matches.length < 1 && !showSpinner">No results found</mat-error>
+</div>
+<app-scroll-to-top></app-scroll-to-top>
+<mat-paginator *ngIf="matches.length > 0" [length]="resultsLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)"></mat-paginator>
